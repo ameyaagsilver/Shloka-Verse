@@ -1,12 +1,15 @@
 import React, { useEffect } from 'react';
 import { Paper, Typography, CircularProgress, Divider, Card, Grid, Grow } from '@material-ui/core/';
-import { ImageList, ImageListItem } from '@mui/material';
+import { CardContent, ImageList, ImageListItem } from '@mui/material';
+import ImageListItemBar from '@mui/material/ImageListItemBar';
+import ListSubheader from '@mui/material/ListSubheader';
+import IconButton from '@mui/material/IconButton';
+import InfoIcon from '@mui/icons-material/Info';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import ReactAudioPlayer from 'react-audio-player';
 import ReactPlayer from "react-player";
-import ResponsiveEmbed from 'react-responsive-embed';
 
 import useStyles from './styles';
 import { getPostById, getRecommendedPostsByPost } from '../../actions/posts';
@@ -74,13 +77,24 @@ export const PostDetails = () => {
                 <div className={classes.imageSection}>
                     <Grow in>
                         <ImageList variant="masonry" sx={{ width: "60%", height: "45%" }} cols={3} gap={8}>
-                            {post?.selectedFiles.map((item) => (
+                            {post?.imageFiles.map((item) => (
                                 <ImageListItem key={item}>
                                     <img
-                                        src={ejsServerAddress + item}
+                                        src={ejsServerAddress + item.image}
                                         alt={"Image here"}
                                         loading="lazy"
                                         width={50}
+                                    />
+                                    <ImageListItemBar
+                                        title={item.desc}
+                                        actionIcon={
+                                        <IconButton
+                                            sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
+                                            aria-label={"info about"}
+                                        >
+                                            <InfoIcon />
+                                        </IconButton>
+                                        }
                                     />
                                 </ImageListItem>
                             ))}
@@ -89,14 +103,21 @@ export const PostDetails = () => {
                 </div>  
             </div>
             <div className={classes.section}>
-                <Grid>
-                    {post?.audioFiles?.map((item) =>(
-                        <ReactAudioPlayer
-                            src={ejsServerAddress + item}
-                            controls
-                        />
+                <div className={classes.form}>
+                    {post?.audioFiles?.map((item, index) => (
+                        <Grow in>
+                            <Card className={classes.card} key={index} raised elevation={6}>
+                                <ReactAudioPlayer
+                                    src={ejsServerAddress + item.audio}
+                                    controls
+                                />
+                                <CardContent>
+                                    <Typography>{item.desc}</Typography>
+                                </CardContent>
+                            </Card>
+                        </Grow>
                     ))}
-                </Grid>
+                </div>
             </div>
 
             <div className={classes.section}>

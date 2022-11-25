@@ -60,4 +60,18 @@ export default makeStyles((theme) => ({
     overflowY: 'auto',
     marginRight: '30px',
   },
+  card: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    borderRadius: '15px',
+    height: '100%',
+    position: 'relative',
+    margin: '10px',
+  },
+  form: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    margin: '25px',
+  },
 }));

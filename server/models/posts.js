@@ -21,8 +21,8 @@ const postSchema = mongoose.Schema({
         type: [String],
         default: [],
     },
-    selectedFiles: [String],
-    audioFiles: [String],
+    imageFiles: [{'image': String, 'desc': String}],
+    audioFiles: [{'audio': String, 'desc': String}],
     youtubeLink: String,
     likes: {
         type: [String],

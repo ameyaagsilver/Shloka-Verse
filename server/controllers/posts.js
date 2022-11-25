@@ -64,11 +64,11 @@ export const createPost = async (req, res) => {
     if (!fs.existsSync(imagesDir)){
         fs.mkdirSync(imagesDir, { recursive: true });
     }
-    for (let i = 0; i < req.body.selectedFiles.length; i++) {
+    for (let i = 0; i < req.body.imageFiles.length; i++) {
         let filepath = imagesDir + '/' + i +'.png';
-        let buffer = Buffer.from(req.body.selectedFiles[i].split(',')[1], "base64");
+        let buffer = Buffer.from(req.body.imageFiles[i].image.split(',')[1], "base64");
         fs.writeFileSync(path.join(path.resolve(), filepath), buffer);
-        req.body.selectedFiles[i] = filepath;
+        req.body.imageFiles[i].image = filepath;
     }
 
     var audioDir = dir + '/Audio';
@@ -77,9 +77,9 @@ export const createPost = async (req, res) => {
     }
     for (let i = 0; i < req.body.audioFiles.length; i++) {
         let filepath = audioDir + '/' + i +'.mp3';
-        let buffer = Buffer.from(req.body.audioFiles[i].split(',')[1], "base64");
+        let buffer = Buffer.from(req.body.audioFiles[i].audio.split(',')[1], "base64");
         fs.writeFileSync(path.join(path.resolve(), filepath), buffer);
-        req.body.audioFiles[i] = filepath;
+        req.body.audioFiles[i].audio = filepath;
     }
     console.log(post);
 

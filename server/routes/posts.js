@@ -3,19 +3,6 @@ import { getPosts, commentOnPost, getPostById, getPostsBySearch, createPost, upd
 import multer from 'multer';
 import auth from "../middleware/auth.js";
 
-// const storage = multer.diskStorage({
-//     destination: (req, file, cb) => {
-//         console.log("filefilefilefilefilefilefile");
-//         cb(null, "./uploads/");
-//     },
-//     filename: (req, file, cb) => {
-//         console.log("filefilefilefilefilefilefile");
-//         cb(null, file.originalname);
-//     }
-// });
-
-// const upload = multer({storage: storage});
-
 const router = express.Router();
 
 router.get('/', getPosts);

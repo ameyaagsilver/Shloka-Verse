@@ -48,7 +48,7 @@ const Post = ({ post, setCurrentId }) => {
 		<Grow in>
 			<Card className={classes.card} raised elevation={6}>
 				<ButtonBase className={classes.cardAction} onClick={handleOpenPost}>
-					<CardMedia className={classes.media} image={ejsServerAddress + post.selectedFiles[0]} title={post.title} />
+					<CardMedia className={classes.media} image={ejsServerAddress + post.imageFiles[0].image} title={post.title} />
 					<div className={classes.overlay} >
 						<Typography variant='h6'>{post.name}</Typography>
 						<Typography variant='body2'>{moment(post.createdAt).fromNow()}</Typography>
