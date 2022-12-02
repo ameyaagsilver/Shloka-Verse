@@ -48,7 +48,7 @@ const Post = ({ post, setCurrentId }) => {
 		<Grow in>
 			<Card className={classes.card} raised elevation={6}>
 				<ButtonBase className={classes.cardAction} onClick={handleOpenPost}>
-					<CardMedia className={classes.media} image={ejsServerAddress + post.imageFiles[0].image} title={post.title} />
+					<CardMedia className={classes.media} image={post.imageFiles.length ? (ejsServerAddress + post.imageFiles[0].image) : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1kZmywGDfCYXNGtiEVYryQeGxfKGDy-fOuhFhQ0CUVW4P-HT6ql9swLBxsCiKV-JSvCA&usqp=CAU'} title={post.title} />
 					<div className={classes.overlay} >
 						<Typography variant='h6'>{post.name}</Typography>
 						<Typography variant='body2'>{moment(post.createdAt).fromNow()}</Typography>
@@ -67,7 +67,7 @@ const Post = ({ post, setCurrentId }) => {
 				<Typography className={classes.title} variant="h5" component="h5">{post.title}</Typography>
 				<Typography className={classes.title} gutterBottom variant="body2" color="textSecondary" component="p">Chapter {post.chapter}, Shloka {post.shlokaNumber}</Typography>
 				<CardContent>
-					<Typography gutterBottom variant="body2" color="textSecondary" component="p">{post.message.split(' ').splice(0, 20).join(' ')}...</Typography>
+					<Typography gutterBottom variant="body2" color="textSecondary" component="p">{post.description.split(' ').splice(0, 20).join(' ')}...</Typography>
 				</CardContent>
 				<CardActions className={classes.cardActions}>
 					<Button size="small" color="primary" disabled={!user?.result} onClick={() => { handleLike(post._id) }}>

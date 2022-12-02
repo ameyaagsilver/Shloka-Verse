@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { Paper, Typography, CircularProgress, Divider, Card, Grid, Grow } from '@material-ui/core/';
 import { CardContent, ImageList, ImageListItem } from '@mui/material';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
-import ListSubheader from '@mui/material/ListSubheader';
 import IconButton from '@mui/material/IconButton';
 import InfoIcon from '@mui/icons-material/Info';
 import { useDispatch, useSelector } from 'react-redux';
@@ -26,12 +25,10 @@ export const PostDetails = () => {
     let ejsServerAddress = process.env.REACT_APP_EJS_SERVER_ADDRESS;
 
     useEffect(() => {
-        console.log(id);
         if (id) dispatch(getPostById(id));
     }, [id]);
 
     useEffect(() => {
-        console.log("Post recom", post)
         if (post) dispatch(getRecommendedPostsByPost(post));
     }, [post]);
     recommendedPosts = recommendedPosts.filter((p) => p._id !== post?._id);
@@ -60,8 +57,28 @@ export const PostDetails = () => {
             <div className={classes.card}>
                 <div className={classes.section}>
                     <Typography variant="h3" component="h3">{post.title}</Typography>
-                    <Typography variant="h5" component="h5">Chapter {post.chapter}, Shloka {post.shlokaNumber}</Typography>
+                    <Typography variant="h5" component="h5">Chapter {post.chapter_number}, Shloka {post.verse_number}</Typography>
                     <Divider style={{ margin: '20px 0' }} />
+                    <div >
+                        <div className={classes.form}>
+                            {post.shloka_hindi}
+                            <Divider style={{ margin: '20px 0' }} />
+                            {post.shloka_transliteration}
+                            <div className={classes.section}>
+                        </div>
+                            <div className={classes.form}>
+                                <Grow in>
+                                    <ReactAudioPlayer 
+                                        src={ejsServerAddress + "uploads/verse_recitation/" + post.chapter_number + "/" + post.verse_number + ".mp3"}
+                                        controls
+                                    />
+                                </Grow>
+                            </div>
+                        </div>
+                        <Divider style={{ margin: '20px 0' }} />
+                        {post.word_meanings}
+                        
+                    </div>
                     <Typography gutterBottom variant="h6" color="textSecondary" component="h2">
                         {post.tags.map((tag) => (
                             <Link to={`/tags/${tag}`} key={tag} style={{ textDecoration: 'none', color: '#3f51b5' }}>
@@ -69,8 +86,7 @@ export const PostDetails = () => {
                             </Link>
                         ))}
                     </Typography>
-                    <Typography gutterBottom variant="body1" component="p">{post.message}</Typography>
-                    {/* <Comments post={post} /> */}
+                    <Typography gutterBottom variant="body1" component="p">{post.description}</Typography>
                 </div>
             </div>
             <div className={classes.section}>
@@ -129,7 +145,7 @@ export const PostDetails = () => {
                         {` ${post.name}`}
                     </Link>
                 </Typography>
-                <Typography variant="body1">{moment(post.createdAt).fromNow()}</Typography>
+                <Typography variant="body1">{moment(post?.createdAt).fromNow()}</Typography>
             </div>
 
             <div className={classes.section}>

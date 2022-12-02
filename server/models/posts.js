@@ -1,21 +1,20 @@
 import mongoose from "mongoose";
 
 const postSchema = mongoose.Schema({
+    chapter_id: Number,
+    chapter_number: Number,
+    externalId: Number,
+    id: Number,
+    shloka_hindi: String,
     title: {
         type: String,
         required: true
     },
-    chapter: {
-        type: String,
-        reqired: true
-    },
-    shlokaNumber: {
-        type: String,
-        required: true
-    },
-    name: String,
-    message: String,
-    creator: String,
+    verse_number: Number, 
+    verse_order: Number,
+    shloka_transliteration: String,
+    word_meanings: String,
+    description: String,
     tags: [String],
     comments: {
         type: [String],

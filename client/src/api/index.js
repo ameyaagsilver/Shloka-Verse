@@ -8,11 +8,12 @@ API.interceptors.request.use((req) => {
     return req;
 })
 
+//Dealing with the post/shloka
 export const fetchPosts = (page) => API.get(`/posts?page=${page}`);
 
 export const fetchPostById = (id) => API.get(`/posts/${id}`);
 
-export const fetchPostsBySearch = (searchQuery) => API.get(`/posts/search?searchQuery=${searchQuery.search || 'none'}&tags=${searchQuery.tags}`);
+export const fetchPostsBySearch = (searchQuery) => API.get(`/posts/search?searchQuery=${searchQuery.search || 'none'}&tags=${searchQuery.tags}&chapterNumber=${searchQuery.chapterNumber}`);
 
 export const createPost = (newPost) => API.post('/posts', newPost);
 
@@ -25,6 +26,11 @@ export const likePost = (id) => API.patch(`/posts/like/${id}`);
 export const commentOnPost = (comment, id) => API.post(`/posts/commentOnPost/${id}`, { comment });
 
 
+//Dealing with Auth module
 export const signIn = (formData) => API.post('/user/signin', formData);
 
 export const signUp = (formData) => API.post('/user/signup', formData);
+
+
+// Dealing with the Chapters of Gita
+export const fetchChapters = () => API.get('/gita-chapters');

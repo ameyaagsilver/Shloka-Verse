@@ -30,6 +30,8 @@ export default makeStyles((theme) => ({
     borderRadius: '20px',
     margin: '10px',
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   imageSection: {
     marginLeft: '20px',
@@ -74,4 +76,10 @@ export default makeStyles((theme) => ({
     flexWrap: 'wrap',
     margin: '25px',
   },
+  middleContent: {
+    display: "flex",
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+  }
 }));

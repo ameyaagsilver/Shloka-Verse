@@ -45,7 +45,6 @@ export const getRecommendedPostsByPost = (post) => async (dispatch) => {
         dispatch({ type: START_LOADING_RECOMMENDED_POSTS });
         const searchQuery = { searchQuery: 'none', tags: post?.tags.join(',') };
         const { data } = await api.fetchPostsBySearch(searchQuery);
-        console.log(data);
         const action = { type: FETCH_RECOMMENDED_POSTS, payload: data };
         dispatch(action);
         dispatch({ type: END_LOADING_RECOMMENDED_POSTS })
@@ -87,8 +86,6 @@ export const deletePost = (id) => async (dispatch) => {
 export const likePost = (id) => async (dispatch) => {
     try {
         const { data } = await api.likePost(id);
-        console.log("Liked dta")
-        console.log(data);
         const action = { type: LIKE, payload: data };
         dispatch(action);
     } catch (error) {
@@ -99,8 +96,6 @@ export const likePost = (id) => async (dispatch) => {
 export const commentOnPost = (comment, id) => async (dispatch) => {
     try {
         const { data } = await api.commentOnPost(comment, id);
-        console.log("Commented on a post")
-        console.log(data);
         const action = { type: COMMENT_ON_POST, payload: data };
         dispatch(action);
         

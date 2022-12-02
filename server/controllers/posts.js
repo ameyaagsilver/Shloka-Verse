@@ -35,15 +35,16 @@ export const getPostById = async (req, res) => {
         res.status(404).json({ message: error.message });
     }
 }
+
 export const getPostsBySearch = async (req, res) => {
     console.log("getting all the searched posts for you....");
-    const { searchQuery, tags } = req.query;
-    console.log(process.env.SERVER_ADDRESS);
-
+    let { searchQuery, tags, chapterNumber } = req.query;
+    if(!tags) tags="";
+    if(!chapterNumber || chapterNumber == "undefined") chapterNumber="0";
+    console.log(req.query);
     try {
         const title = new RegExp(searchQuery, 'i');
-        const posts = await PostMessage.find({ $or: [{ title }, { tags: { $in: tags.split(",") } }] });
-
+        const posts = await PostMessage.find({ $or: [ {title: title}, { tags: { $in: tags.split(",") } }, { chapter_number: Number(chapterNumber) }] });
         res.status(200).json(posts);
     } catch (error) {
         console.log(error);

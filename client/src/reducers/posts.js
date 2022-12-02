@@ -1,6 +1,6 @@
 import { FETCH_ALL, FETCH_RECOMMENDED_POSTS, FETCH_POST_BY_ID, FETCH_ALL_BY_SEARCH, CREATE, DELETE, LIKE, UPDATE, COMMENT_ON_POST, START_LOADING, END_LOADING, START_LOADING_RECOMMENDED_POSTS, END_LOADING_RECOMMENDED_POSTS } from "../constants/actionTypes";
 
-export default (state = { post: null, recommendedPosts: [], isLoading: true, posts: [], isRecommendedPostsLoading: true }, action) => {
+export default (state = { post: null, recommendedPosts: [], isLoading: false, posts: [], isRecommendedPostsLoading: false }, action) => {
     switch (action.type) {
         case START_LOADING:
             return { ...state, isLoading: true };
@@ -18,7 +18,6 @@ export default (state = { post: null, recommendedPosts: [], isLoading: true, pos
                 numberOfPages: action.payload.numberOfPages,
             };
         case FETCH_POST_BY_ID:
-            console.log(action.payload);
             return { ...state, post: action.payload }
         case FETCH_ALL_BY_SEARCH:
             return { ...state, posts: action.payload };

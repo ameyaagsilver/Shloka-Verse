@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { TextField, Button, Typography, Paper, Divider, Card, CardMedia, Grow } from '@material-ui/core';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
 import FileBase64 from 'react-file-base64';
 import { useDispatch, useSelector } from 'react-redux';
 import ChipInput from 'material-ui-chip-input';
@@ -27,6 +31,43 @@ export const Form = ({ currentId, setCurrentId }) => {
 		if (post) setPostData(post);
 	}, [post]);
 
+	const gitaChapterOptions = [{
+		"chapter": "1. Vishad Yog"
+	  },{
+		"chapter": "2. Sankhya Yog"
+	  },{
+		"chapter": "3. Karma Yog"
+	  },{
+		"chapter": "4. Jnana Yog"
+	  },{
+		"chapter": "5. Karma Vairagya Yog"
+	  },{
+		"chapter": "6. Abhyasa Yog"
+	  },{
+		"chapter": "7. Paramahamsa Vijnana Yoga"
+	  },{
+		"chapter": "8. Akshara-Parabrahman Yoga"
+	  },{
+		"chapter": "9. Raja-Vidya-Guhya Yoga"
+	  },{
+		"chapter": "10. Vibhuti-Vistara-Yoga"
+	  },{
+		"chapter": "11. Vishwaroopa-Darshana Yoga"
+	  },{
+		"chapter": "12. Bhakti Yoga"
+	  },{
+		"chapter": "13. Kshetra-Kshetrajna Vibhaga Yoga"
+	  },{
+		"chapter": "14. Gunatraya-Vibhaga Yoga"
+	  },{
+		"chapter": "15. Purushottama Yoga"
+	  },{
+		"chapter": "16. Daivasura-Sampad-Vibhaga Yoga"
+	  },{
+		"chapter": "17. Shraddhatraya-Vibhaga Yoga"
+	  },{
+		"chapter": "18. Moksha-Upadesha Yoga"
+	  }]
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -117,7 +158,15 @@ export const Form = ({ currentId, setCurrentId }) => {
 			<form autoComplete='off' noValidate className={`${classes.form} ${classes.root}`} onSubmit={handleSubmit} encType="multipart/form-data">
 				<Typography variant='h6'>{currentId ? 'Update' : 'Create'} a shloka</Typography>
 				<TextField name="title" variant="outlined" label="Title" fullWidth value={postData.title} onChange={(e) => setPostData({ ...postData, title: e.target.value })} />
-				<TextField name="chapter" variant="outlined" label="Chapter" fullWidth value={postData.chapter} onChange={(e) => setPostData({ ...postData, chapter: e.target.value })} />
+				<FormControl fullWidth>
+					<InputLabel id="select-gita-chapter">Chapter</InputLabel>
+					<Select label="Chapter" labelId="select-gita-chapter" id="demo-simple-select" fullWidth value={postData.chapter} onChange={(e) => setPostData({ ...postData, chapter: e.target.value })} >
+						{gitaChapterOptions.map((item) => (
+							<MenuItem value={item.chapter}>{item.chapter}</MenuItem>
+						))}
+					</Select>
+				</FormControl>
+				
 				<TextField name="shlokaNumber" variant="outlined" label="Shloka no." fullWidth value={postData.shlokaNumber} onChange={(e) => setPostData({ ...postData, shlokaNumber: e.target.value })} />
 				<TextField name="message" variant="outlined" label="Description" fullWidth value={postData.message} onChange={(e) => setPostData({ ...postData, message: e.target.value })} />
 				<TextField name="youtubeLink" variant="outlined" label="Youtube Link" fullWidth value={postData.youtubeLink} onChange={(e) => setPostData({ ...postData, youtubeLink: e.target.value })} />
