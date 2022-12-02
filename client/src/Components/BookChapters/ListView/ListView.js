@@ -13,7 +13,7 @@ export const ListView = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const classes = useStyles();
-    const { chapterNumber } = useParams();
+    const { chapterNumber, bookId } = useParams();
     let ejsServerAddress = process.env.REACT_APP_EJS_SERVER_ADDRESS;
 
     useEffect(() => {
@@ -21,7 +21,7 @@ export const ListView = () => {
     }, [chapterNumber]);
 
     const searchPost = () => {
-        dispatch(getPostsBySearch({ search: 'none', chapterNumber: chapterNumber }));
+        dispatch(getPostsBySearch({ chapterNumber: chapterNumber, bookId: bookId }));
     }
 
     const openPost = (_id) => navigate(`/gita/chapter/${chapterNumber}/verse/${_id}`);
@@ -43,7 +43,7 @@ export const ListView = () => {
 
             {posts?.map((post) => (
                 <div>
-                    <Link to={`/gita/chapter/${chapterNumber}/verse/${post._id}`}>Shloka {post.verse_number} ({post.title})</Link>
+                    <Link to={`/books/${bookId}/chapter/${chapterNumber}/verse/${post._id}`}>Shloka {post.verse_number} ({post.title})</Link>
                     {post?.imageFiles?.length ? (
                         <>
                             &nbsp;&nbsp;&nbsp;

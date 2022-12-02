@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const gitaChapterSchema = mongoose.Schema({
+const bookChapterSchema = mongoose.Schema({
     chapter_number: String,
     chapter_name: String,
     name_hindi: String,
@@ -10,8 +10,9 @@ const gitaChapterSchema = mongoose.Schema({
     chapter_summary_hindi: String,
     verses_count: Number,
     image: String,
+    book_id: Number,
 });
 
-const GitaChapter = mongoose.model('GitaChapter', gitaChapterSchema);
+const BookChapter = mongoose.model('BookChapter', bookChapterSchema);
 
-export default GitaChapter;
+export default BookChapter;

@@ -21,7 +21,7 @@ export const PostDetails = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const classes = useStyles();
-    const { id } = useParams();
+    const { bookId, chapterNumber, id } = useParams();
     let ejsServerAddress = process.env.REACT_APP_EJS_SERVER_ADDRESS;
 
     useEffect(() => {
@@ -60,24 +60,30 @@ export const PostDetails = () => {
                     <Typography variant="h5" component="h5">Chapter {post.chapter_number}, Shloka {post.verse_number}</Typography>
                     <Divider style={{ margin: '20px 0' }} />
                     <div >
-                        <div className={classes.form}>
-                            {post.shloka_hindi}
-                            <Divider style={{ margin: '20px 0' }} />
-                            {post.shloka_transliteration}
-                            <div className={classes.section}>
-                        </div>
-                            <div className={classes.form}>
-                                <Grow in>
-                                    <ReactAudioPlayer 
-                                        src={ejsServerAddress + "uploads/verse_recitation/" + post.chapter_number + "/" + post.verse_number + ".mp3"}
-                                        controls
-                                    />
-                                </Grow>
+                        {post.shloka_hindi.split("\n").map((item, index) => (
+                            <div key={index} className={classes.middleContent}>
+                                <Typography>{item}</Typography>
                             </div>
-                        </div>
+                        ))}
                         <Divider style={{ margin: '20px 0' }} />
-                        {post.word_meanings}
-                        
+                        {post.shloka_transliteration.split("\n").map((item, index) => (
+                            <div key={index} className={classes.middleContent}>
+                                <Typography>{item}</Typography>
+                            </div>
+                        ))}
+                            <Divider style={{ margin: '20px 0' }} />
+                            <div className={classes.section}>
+                                <div className={classes.middleContent}>
+                                    <Grow in>
+                                        <ReactAudioPlayer 
+                                            src={ejsServerAddress + "uploads/verse_recitation/" + post.chapter_number + "/" + post.verse_number + ".mp3"}
+                                            controls
+                                        />
+                                    </Grow>
+                                </div>
+                            </div>
+                            <Divider style={{ margin: '20px 0' }} />
+                            {post.word_meanings}
                     </div>
                     <Typography gutterBottom variant="h6" color="textSecondary" component="h2">
                         {post.tags.map((tag) => (
@@ -136,7 +142,7 @@ export const PostDetails = () => {
                 </div>
             </div>
 
-            <div className={classes.section}>
+            {/* <div className={classes.section}>
                 <ReactPlayer controls={true} url={post?.youtubeLink || 'https://www.youtube.com'}/>
                 <Divider style={{ margin: '20px 0' }} />
                 <Typography variant="h6">
@@ -146,7 +152,7 @@ export const PostDetails = () => {
                     </Link>
                 </Typography>
                 <Typography variant="body1">{moment(post?.createdAt).fromNow()}</Typography>
-            </div>
+            </div> */}
 
             <div className={classes.section}>
                 {isRecommendedPostsLoading ?

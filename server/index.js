@@ -6,7 +6,8 @@ import dotenv from 'dotenv';
 
 import postRoutes from './routes/posts.js';
 import userRoutes from './routes/users.js';
-import gitaChapterRoutes from './routes/gitaChapters.js';
+import bookChapterRoutes from './routes/bookChapters.js';
+import books from './routes/books.js';
 
 const Connection = mongoose.connection;
 
@@ -19,7 +20,8 @@ app.use(cors())
 
 app.use('/posts', postRoutes);
 app.use('/user', userRoutes);
-app.use('/gita-chapters', gitaChapterRoutes);
+app.use('/book-chapters', bookChapterRoutes);
+app.use('/books', books);
 app.use('/uploads', express.static('uploads'));
 
 const CONNECTION_URL = process.env.CONNECTION_URL;

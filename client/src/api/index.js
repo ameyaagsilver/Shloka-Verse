@@ -13,7 +13,7 @@ export const fetchPosts = (page) => API.get(`/posts?page=${page}`);
 
 export const fetchPostById = (id) => API.get(`/posts/${id}`);
 
-export const fetchPostsBySearch = (searchQuery) => API.get(`/posts/search?searchQuery=${searchQuery.search || 'none'}&tags=${searchQuery.tags}&chapterNumber=${searchQuery.chapterNumber}`);
+export const fetchPostsBySearch = (searchQuery) => API.get(`/posts/search?searchQuery=${searchQuery.search || ''}&tags=${searchQuery.tags || ''}&chapterNumber=${searchQuery.chapterNumber || ''}&bookId=${searchQuery?.bookId || ''}`);
 
 export const createPost = (newPost) => API.post('/posts', newPost);
 
@@ -32,5 +32,9 @@ export const signIn = (formData) => API.post('/user/signin', formData);
 export const signUp = (formData) => API.post('/user/signup', formData);
 
 
-// Dealing with the Chapters of Gita
-export const fetchChapters = () => API.get('/gita-chapters');
+// Dealing with the Chapters of a specific Book
+export const fetchBookChapters = (bookId) => API.get(`/book-chapters?bookId=${bookId}`);
+
+
+// Dealing with all the Books
+export const fetchBooks = () => API.get('/books');

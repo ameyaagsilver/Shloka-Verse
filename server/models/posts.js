@@ -30,7 +30,8 @@ const postSchema = mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now()
-    }
+    },
+    book_id: Number,
 });
 
 const PostMessage = mongoose.model('PostMessage', postSchema);

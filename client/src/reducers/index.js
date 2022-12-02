@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
 import posts from './posts'
 import auth from "./auth";
-import gitaChapters from "./gita-chapters";
+import bookChapters from "./book-chapters";
+import books from "./books";
 
-export default combineReducers({ posts, auth, gitaChapters });
+export default combineReducers({ posts, auth, bookChapters, books });

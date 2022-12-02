@@ -4,8 +4,8 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import decode from 'jwt-decode'
 
 import useStyles from './styles';
-import memoriesText from '../../images/memories-Text.png'
-import memoriesLogo from '../../images/memories-Logo.png'
+import memoriesText from '../../images/logo 1.png'
+import memoriesLogo from '../../images/Logo 3.png'
 import { useDispatch } from 'react-redux';
 
 

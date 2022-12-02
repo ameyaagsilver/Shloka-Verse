@@ -38,13 +38,22 @@ export const getPostById = async (req, res) => {
 
 export const getPostsBySearch = async (req, res) => {
     console.log("getting all the searched posts for you....");
-    let { searchQuery, tags, chapterNumber } = req.query;
-    if(!tags) tags="";
-    if(!chapterNumber || chapterNumber == "undefined") chapterNumber="0";
+    let { searchQuery, tags, chapterNumber, bookId } = req.query;
+
+    let mainQuery = [];
+
+    if(searchQuery || searchQuery.length) mainQuery.push({title: new RegExp(searchQuery, 'i')});
+    
+    if(tags || tags.length) mainQuery.push({ tags: { $in: tags.split(",") } });
+    
+    if(chapterNumber || chapterNumber.length) mainQuery.push({ chapter_number: Number(chapterNumber) });
+    
+    if(bookId || bookId.length) mainQuery.push({book_id: Number(bookId)});
+
     console.log(req.query);
     try {
-        const title = new RegExp(searchQuery, 'i');
-        const posts = await PostMessage.find({ $or: [ {title: title}, { tags: { $in: tags.split(",") } }, { chapter_number: Number(chapterNumber) }] });
+        if(!mainQuery.length) {res.status(200).json([]);return;}
+        const posts = await PostMessage.find({ $and: mainQuery });
         res.status(200).json(posts);
     } catch (error) {
         console.log(error);
