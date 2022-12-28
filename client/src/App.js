@@ -13,7 +13,7 @@ import { Books } from './Components/Books/Books'
 
 function App() {
     let user = JSON.parse(localStorage.getItem('profile'));
-
+    console.log(user);
     setTimeout(() => {
         user = JSON.parse(localStorage.getItem('profile'));
     }, 1000);

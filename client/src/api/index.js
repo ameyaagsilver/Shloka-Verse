@@ -35,6 +35,10 @@ export const signUp = (formData) => API.post('/user/signup', formData);
 // Dealing with the Chapters of a specific Book
 export const fetchBookChapters = (bookId) => API.get(`/book-chapters?bookId=${bookId}`);
 
+export const createChapter = (newChapter) => API.post(`/book-chapters/create`, newChapter);
+
 
 // Dealing with all the Books
 export const fetchBooks = () => API.get('/books');
+
+export const createBook = (newBook) => API.post('/books/create', newBook);

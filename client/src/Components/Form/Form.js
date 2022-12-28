@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { TextField, Button, Typography, Paper, Divider, Card, CardMedia, Grow } from '@material-ui/core';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
@@ -11,63 +11,28 @@ import ChipInput from 'material-ui-chip-input';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ReactAudioPlayer from 'react-audio-player';
 import ReactPlayer from "react-player";
+import { toast } from 'wc-toast';
+
 
 import useStyles from './styles';
 import { createPost, updatePost } from '../../actions/posts';
 
-
 export const Form = ({ currentId, setCurrentId }) => {
 	const classes = useStyles();
-	const [postData, setPostData] = useState({
-		title: '', message: '', tags: [], imageFiles: [], audioFiles: [], chapter: '', shlokaNumber: '', youtubeLink: ''
-	});
-	const user = JSON.parse(localStorage.getItem('profile'));
-	const post = useSelector((state) => currentId ? state.posts.posts.find((p) => p._id === currentId) : null);
 	const dispatch = useDispatch();
 	const location = useLocation();
 	const navigate = useNavigate();
+	const { bookId, chapterNumber } = useParams();
+	const [postData, setPostData] = useState({
+		book_id: bookId, chapter_number: chapterNumber, message: '', tags: [], imageFiles: [], audioFiles: [],
+		verse_number: '', youtubeLink: '', shloka_hindi: "", shloka_transliteration: "", word_meanings: "", description: "",
+	});
+	const user = JSON.parse(localStorage.getItem('profile'));
+	const post = useSelector((state) => currentId ? state.posts.posts.find((p) => p._id === currentId) : null);
 
 	useEffect(() => {
 		if (post) setPostData(post);
 	}, [post]);
-
-	const gitaChapterOptions = [{
-		"chapter": "1. Vishad Yog"
-	  },{
-		"chapter": "2. Sankhya Yog"
-	  },{
-		"chapter": "3. Karma Yog"
-	  },{
-		"chapter": "4. Jnana Yog"
-	  },{
-		"chapter": "5. Karma Vairagya Yog"
-	  },{
-		"chapter": "6. Abhyasa Yog"
-	  },{
-		"chapter": "7. Paramahamsa Vijnana Yoga"
-	  },{
-		"chapter": "8. Akshara-Parabrahman Yoga"
-	  },{
-		"chapter": "9. Raja-Vidya-Guhya Yoga"
-	  },{
-		"chapter": "10. Vibhuti-Vistara-Yoga"
-	  },{
-		"chapter": "11. Vishwaroopa-Darshana Yoga"
-	  },{
-		"chapter": "12. Bhakti Yoga"
-	  },{
-		"chapter": "13. Kshetra-Kshetrajna Vibhaga Yoga"
-	  },{
-		"chapter": "14. Gunatraya-Vibhaga Yoga"
-	  },{
-		"chapter": "15. Purushottama Yoga"
-	  },{
-		"chapter": "16. Daivasura-Sampad-Vibhaga Yoga"
-	  },{
-		"chapter": "17. Shraddhatraya-Vibhaga Yoga"
-	  },{
-		"chapter": "18. Moksha-Upadesha Yoga"
-	  }]
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -76,15 +41,15 @@ export const Form = ({ currentId, setCurrentId }) => {
 		} else {
 			console.log("postData::");
 			console.log(postData);
-			dispatch(createPost({ ...postData, name: user?.result?.name, createdAt: Date.now() }));
+			dispatch(createPost({ ...postData, name: user?.result?.name, createdAt: Date.now() }, toast));
 		}
 		clear();
-		navigate('/');
 	}
 
 	const clear = () => {
 		setPostData({
-			title: '', message: '', tags: [], imageFiles: [], audioFiles: [], chapter: '', shlokaNumber: '', youtubeLink: ''
+			book_id: bookId, chapter_number: chapterNumber, message: '', tags: [], imageFiles: [], audioFiles: [],
+			verse_number: '', youtubeLink: '', shloka_hindi: "", shloka_transliteration: "", word_meanings: "", description: "",
 		});
 	}
 
@@ -155,19 +120,23 @@ export const Form = ({ currentId, setCurrentId }) => {
 	}
 	return (
 		<Paper className={classes.paper} elevation={6}>
+			<wc-toast></wc-toast>
 			<form autoComplete='off' noValidate className={`${classes.form} ${classes.root}`} onSubmit={handleSubmit} encType="multipart/form-data">
 				<Typography variant='h6'>{currentId ? 'Update' : 'Create'} a shloka</Typography>
-				<TextField name="title" variant="outlined" label="Title" fullWidth value={postData.title} onChange={(e) => setPostData({ ...postData, title: e.target.value })} />
-				<FormControl fullWidth>
+				<TextField name="Book Id" variant="outlined" label="Book Id" fullWidth value={postData.book_id} inputProps={{ readOnly: true }} />
+				<TextField name="Chapter Number" variant="outlined" label="Chapter No." fullWidth value={postData.chapter_number} inputProps={{ readOnly: true }} />
+				{/* <FormControl fullWidth>
 					<InputLabel id="select-gita-chapter">Chapter</InputLabel>
 					<Select label="Chapter" labelId="select-gita-chapter" id="demo-simple-select" fullWidth value={postData.chapter} onChange={(e) => setPostData({ ...postData, chapter: e.target.value })} >
-						{gitaChapterOptions.map((item) => (
-							<MenuItem value={item.chapter}>{item.chapter}</MenuItem>
+						{chapters.map((item, index) => (
+							<MenuItem key={index} value={item.chapter_name}>{item.chapter_name}</MenuItem>
 						))}
 					</Select>
-				</FormControl>
-				
-				<TextField name="shlokaNumber" variant="outlined" label="Shloka no." fullWidth value={postData.shlokaNumber} onChange={(e) => setPostData({ ...postData, shlokaNumber: e.target.value })} />
+				</FormControl> */}
+				<TextField name="verse_number" inputProps={{ required: true }} variant="outlined" label="Verse no." fullWidth value={postData.verse_number} onChange={(e) => setPostData({ ...postData, verse_number: e.target.value })} />
+				<TextField name="shloka_hindi" variant="outlined" label="Shloka(Hindi)" fullWidth value={postData.shloka_hindi} onChange={(e) => setPostData({ ...postData, shloka_hindi: e.target.value })} />
+				<TextField name="shloka_transliteration" variant="outlined" label="Shloka(Transliterated/English)" fullWidth value={postData.shloka_transliteration} onChange={(e) => setPostData({ ...postData, shloka_transliteration: e.target.value })} />
+				<TextField name="Word Meanings" variant="outlined" label="Word meanings" fullWidth value={postData.word_meanings} onChange={(e) => setPostData({ ...postData, word_meanings: e.target.value })} />
 				<TextField name="message" variant="outlined" label="Description" fullWidth value={postData.message} onChange={(e) => setPostData({ ...postData, message: e.target.value })} />
 				<TextField name="youtubeLink" variant="outlined" label="Youtube Link" fullWidth value={postData.youtubeLink} onChange={(e) => setPostData({ ...postData, youtubeLink: e.target.value })} />
 				<ChipInput
@@ -182,12 +151,14 @@ export const Form = ({ currentId, setCurrentId }) => {
 				<div className={classes.fileInput}>
 					<div className={classes.form}>
 						{postData.imageFiles.map((imageFile, index) => (
-							<Card className={classes.card} key={index} raised elevation={6}>
-								<CardMedia className={classes.media} image={imageFile.image || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1kZmywGDfCYXNGtiEVYryQeGxfKGDy-fOuhFhQ0CUVW4P-HT6ql9swLBxsCiKV-JSvCA&usqp=CAU'}/>
-								<FileBase64 type="file" onDone={(e) => handleSelectImageFile(index, e)} accept="image/*" />
-								<TextField name="descOfImage" variant="outlined" label="Description of the Image" value={imageFile.desc} onChange={(e) => handleImageDesc(index, e)} />								
-								<Button size="small" variant='contained' color="secondary" onClick={() => handleDeleteImageFile(index)}><DeleteIcon fontSize="small" />Remove</Button>
-							</Card>							
+							<Grow in>
+								<Card className={classes.card} key={index} raised elevation={6}>
+									<CardMedia className={classes.media} image={imageFile.image || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1kZmywGDfCYXNGtiEVYryQeGxfKGDy-fOuhFhQ0CUVW4P-HT6ql9swLBxsCiKV-JSvCA&usqp=CAU'}/>
+									<FileBase64 type="file" onDone={(e) => handleSelectImageFile(index, e)} accept="image/*" />
+									<TextField name="descOfImage" variant="outlined" label="Description of the Image" value={imageFile.desc} onChange={(e) => handleImageDesc(index, e)} />								
+									<Button size="small" variant='contained' color="secondary" onClick={() => handleDeleteImageFile(index)}><DeleteIcon fontSize="small" />Remove</Button>
+								</Card>							
+							</Grow>
 						))}
 					</div>
 					<Button variant="contained" color="primary" size='small' onClick={addImageCard}>Add Image</Button>

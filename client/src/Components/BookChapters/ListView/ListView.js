@@ -1,20 +1,23 @@
-import React, { useEffect } from 'react';
-import { Paper, Typography, CircularProgress, Divider, Card, Grid, Grow } from '@material-ui/core/';
+import React, { useEffect, useState } from 'react';
+import { Paper, Typography, CircularProgress, Divider, Button } from '@material-ui/core/';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 
 import useStyles from './styles';
 import { getPostById, getRecommendedPostsByPost } from '../../../actions/posts';
 import Post from '../../Posts/Post/Post';
-import { getPosts, getPostsBySearch } from '../../../actions/posts'
+import { getPosts, getPostsBySearch } from '../../../actions/posts';
+import { Form } from '../../Form/Form';
+import { Roadmap } from '../../Roadmap/Roadmap';
 
 export const ListView = () => {
-    let { posts, isLoading } = useSelector((state) => state.posts);
+    let ejsServerAddress = process.env.REACT_APP_EJS_SERVER_ADDRESS;
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const classes = useStyles();
+    let { posts, isLoading } = useSelector((state) => state.posts);
     const { chapterNumber, bookId } = useParams();
-    let ejsServerAddress = process.env.REACT_APP_EJS_SERVER_ADDRESS;
+	const [displayAddShlokaForm, setDisplayAddShlokaForm] = useState(false);
 
     useEffect(() => {
         if (chapterNumber) searchPost();
@@ -22,6 +25,10 @@ export const ListView = () => {
 
     const searchPost = () => {
         dispatch(getPostsBySearch({ chapterNumber: chapterNumber, bookId: bookId }));
+    }
+
+    const toggleAddShlokaForm = () => {
+        setDisplayAddShlokaForm(!displayAddShlokaForm);
     }
 
     const openPost = (_id) => navigate(`/gita/chapter/${chapterNumber}/verse/${_id}`);
@@ -33,17 +40,14 @@ export const ListView = () => {
             </Paper>
         );
     }
+
     return (
         <div>
-            <Paper style={{ padding: '20px', borderRadius: '15px', marginBottom: '20px' }} elevation={6}>
-                <div className={classes.section}>
-                    <Typography variant='h6' align='center'>Chapter {chapterNumber}</Typography>
-                </div>
-            </Paper>
+            <Roadmap />
 
             {posts?.map((post) => (
                 <div>
-                    <Link to={`/books/${bookId}/chapter/${chapterNumber}/verse/${post._id}`}>Shloka {post.verse_number} ({post.title})</Link>
+                    <Link to={`/books/${bookId}/chapter/${chapterNumber}/verse/${post._id}`}>Shloka {post.verse_number}</Link>
                     {post?.imageFiles?.length ? (
                         <>
                             &nbsp;&nbsp;&nbsp;
@@ -66,12 +70,17 @@ export const ListView = () => {
                     
                     &nbsp;&nbsp;&nbsp;
                     {post?.youtubeLink?.length ? (
-                        <a href={post.title} target="_blank">Youtube Link</a>
+                        <a href={post.youtubeLink} target="_blank">Youtube Link</a>
                     ) : <></>}
                     
                     <Divider style={{ margin: '10px 0' }} />
+                    
                 </div>
             ))}
+
+			<Button variant="contained" color="primary" size='small' onClick={toggleAddShlokaForm}>Add Shloka</Button>
+
+            {displayAddShlokaForm ? <Form /> : null}
         </div>
     )
 }

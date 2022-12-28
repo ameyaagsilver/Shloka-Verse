@@ -1,14 +1,13 @@
 import mongoose from "mongoose";
 
 const postSchema = mongoose.Schema({
-    chapter_id: Number,
+    // chapter_id: Number,
     chapter_number: Number,
     externalId: Number,
     id: Number,
     shloka_hindi: String,
     title: {
         type: String,
-        required: true
     },
     verse_number: Number, 
     verse_order: Number,

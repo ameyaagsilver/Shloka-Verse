@@ -10,7 +10,6 @@ export const signin = (formData, navigate, toast) => async(dispatch) => {
         
         navigate('/');
     } catch (error) {
-        // console.log(error);
         toast.error("Unable to sign you in")
         toast.error(error?.response?.data?.message)
     }
@@ -24,7 +23,6 @@ export const signup = (formData, navigate, toast) => async(dispatch) => {
         
         navigate('/');
     } catch (error) {
-        // console.log(error);
         toast.error(error?.response?.data?.message)
     }
 }

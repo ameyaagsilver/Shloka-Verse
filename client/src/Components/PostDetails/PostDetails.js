@@ -58,15 +58,22 @@ export const PostDetails = () => {
                 <div className={classes.section}>
                     <Typography variant="h3" component="h3">{post.title}</Typography>
                     <Typography variant="h5" component="h5">Chapter {post.chapter_number}, Shloka {post.verse_number}</Typography>
+                    <Typography gutterBottom variant="h6" color="textSecondary" component="h2">
+                        {post.tags.map((tag) => (
+                            <Link to={`/tags/${tag}`} key={tag} style={{ textDecoration: 'none', color: '#3f51b5' }}>
+                                {` #${tag} `}
+                            </Link>
+                        ))}
+                    </Typography>
                     <Divider style={{ margin: '20px 0' }} />
                     <div >
-                        {post.shloka_hindi.split("\n").map((item, index) => (
+                        {post?.shloka_hindi?.split("\n").map((item, index) => (
                             <div key={index} className={classes.middleContent}>
                                 <Typography>{item}</Typography>
                             </div>
                         ))}
                         <Divider style={{ margin: '20px 0' }} />
-                        {post.shloka_transliteration.split("\n").map((item, index) => (
+                        {post?.shloka_transliteration?.split("\n").map((item, index) => (
                             <div key={index} className={classes.middleContent}>
                                 <Typography>{item}</Typography>
                             </div>
@@ -85,13 +92,6 @@ export const PostDetails = () => {
                             <Divider style={{ margin: '20px 0' }} />
                             {post.word_meanings}
                     </div>
-                    <Typography gutterBottom variant="h6" color="textSecondary" component="h2">
-                        {post.tags.map((tag) => (
-                            <Link to={`/tags/${tag}`} key={tag} style={{ textDecoration: 'none', color: '#3f51b5' }}>
-                                {` #${tag} `}
-                            </Link>
-                        ))}
-                    </Typography>
                     <Typography gutterBottom variant="body1" component="p">{post.description}</Typography>
                 </div>
             </div>

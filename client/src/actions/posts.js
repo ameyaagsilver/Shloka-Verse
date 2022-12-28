@@ -47,19 +47,21 @@ export const getRecommendedPostsByPost = (post) => async (dispatch) => {
         const { data } = await api.fetchPostsBySearch(searchQuery);
         const action = { type: FETCH_RECOMMENDED_POSTS, payload: data };
         dispatch(action);
-        dispatch({ type: END_LOADING_RECOMMENDED_POSTS })
+        dispatch({ type: END_LOADING_RECOMMENDED_POSTS });
     } catch (error) {
         console.log(error);
     }
 }
 
-export const createPost = (post) => async (dispatch) => {
+export const createPost = (post, toast) => async (dispatch) => {
     try {
         const { data } = await api.createPost(post);
         const action = { type: CREATE, payload: data };
         dispatch(action);
+        toast.success("Created a new Shloka");
     } catch (error) {
         console.log(error.message);
+        toast.error("Could'nt create new shloka");
     }
 }
 
