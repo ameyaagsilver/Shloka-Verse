@@ -42,3 +42,5 @@ export const createChapter = (newChapter) => API.post(`/book-chapters/create`, n
 export const fetchBooks = () => API.get('/books');
 
 export const createBook = (newBook) => API.post('/books/create', newBook);
+
+export const fetchBooksBySearch = (searchQuery) => API.get(`/books/search?bookId=${searchQuery?.bookId || ''}`);

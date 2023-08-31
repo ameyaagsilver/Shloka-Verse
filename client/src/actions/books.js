@@ -1,5 +1,5 @@
 import * as api from '../api';
-import { FETCH_ALL_BOOKS, START_LOADING_BOOKS, END_LOADING_BOOKS, CREATE_BOOK } from '../constants/actionTypes';
+import { FETCH_ALL_BOOKS, START_LOADING_BOOKS, END_LOADING_BOOKS, CREATE_BOOK, START_LOADING_BOOKS_BY_SEARCH, END_LOADING_BOOKS_BY_SEARCH, FETCH_ALL_BOOKS_BY_SEARCH } from '../constants/actionTypes';
 
 export const fetchBooks = () => async (dispatch) => {
     try {
@@ -25,12 +25,14 @@ export const createBook = (book, toast) => async (dispatch) => {
     }
 }
 
-// export const updatePost = (id, post) => async (dispatch) => {
-//     try {
-//         const { data } = await api.updatePost(id, post);
-//         const action = { type: UPDATE, payload: data };
-//         dispatch(action);
-//     } catch (error) {
-//         console.log(error.message);
-//     }
-// }
+export const getBooksBySearch = (searchQuery) => async (dispatch) => {
+    try {
+        dispatch({ type: START_LOADING_BOOKS_BY_SEARCH });
+        const { data } = await api.fetchBooksBySearch(searchQuery);
+        const action = { type: FETCH_ALL_BOOKS_BY_SEARCH, payload: data };
+        dispatch(action);
+        dispatch({ type: END_LOADING_BOOKS_BY_SEARCH });
+    } catch (error) {
+        console.log(error);
+    }
+} 

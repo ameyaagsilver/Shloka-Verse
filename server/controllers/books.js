@@ -27,9 +27,9 @@ export const createBook = async (req, res) => {
 export const getBooksBySearch = async (req, res) => {
     let { bookId } = req.query;
     
-    mainQuery = [];
+    let mainQuery = [];
 
-    if(bookId || bookId.length) mainQuery.push({book_id: Number(bookId)});
+    if(bookId || bookId?.length) mainQuery.push({book_id: Number(bookId)});
 
     console.log(req.query);
 
